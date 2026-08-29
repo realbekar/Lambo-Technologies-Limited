@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Lambo Technologies Limited — Secure. Connect. Automate.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#ffffff;color:#0f1a0f;font-family:'Inter',sans-serif;overflow-x:hidden}
+h1,h2,h3,h4,h5{font-family:'Plus Jakarta Sans',sans-serif}
+
+/* ── COLOR TOKENS ── */
+:root{
+  --green:     #16a34a;
+  --green-lt:  #22c55e;
+  --green-xlt: #4ade80;
+  --green-bg:  #f0fdf4;
+  --green-mid: #dcfce7;
+  --dark:      #030c03;
+  --dark2:     #0a1a0a;
+  --dark3:     #112211;
+  --text:      #111827;
+  --text-mid:  #374151;
+  --text-soft: #6b7280;
+  --text-xs:   #9ca3af;
+  --border:    #e5e7eb;
+  --border-g:  rgba(22,163,74,0.2);
+}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;transition:all .3s ease}
+.card:hover{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.08),0 12px 40px rgba(22,163,74,.12)}
+.card-green{background:var(--green-bg);border:1px solid var(--green-mid);border-radius:16px}
+.card-dark{background:var(--dark2);border:1px solid rgba(255,255,255,.06);border-radius:16px}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}
+
+/* ── ANIMATIONS ── */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes dash{to{stroke-dashoffset:-400}}
+@keyframes nodeP{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes stripScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes logUp{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+@keyframes gridPan{0%{background-position:0 0}100%{background-position:40px 40px}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.4}}
+@keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+
+.af{animation:float 6s ease-in-out infinite}
+.afb{animation:floatB 6s ease-in-out 1.8s infinite}
+.abl{animation:blink 2.5s ease-in-out infinite}
+.adash{stroke-dasharray:200;animation:dash 3s linear infinite}
+.anp{animation:nodeP 2.2s ease-in-out infinite}
+.astrip{animation:stripScroll 30s linear infinite}
+.alog{animation:logUp 20s linear infinite}
+.aspin{animation:spinSlow 14s linear infinite}
+.agrid{animation:gridPan 22s linear infinite}
+
+/* ── SERVICE CARDS ── */
+.svc-card{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .3s ease;cursor:pointer}
+.svc-card:hover{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.07),0 16px 48px rgba(22,163,74,.14);transform:translateY(-5px)}
+.svc-card .thumb{transition:transform .5s ease}
+.svc-card:hover .thumb{transform:scale(1.06)}
+
+/* ── PORTFOLIO ── */
+.port-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s ease}
+.port-card:hover{border-color:var(--green);box-shadow:0 8px 40px rgba(22,163,74,.12);transform:translateY(-4px)}
+.port-card .pimg{transition:transform .5s ease}
+.port-card:hover .pimg{transform:scale(1.06)}
+.port-ov{opacity:0;transition:opacity .3s ease}
+.port-card:hover .port-ov{opacity:1}
+
+/* ── DOT GRID (light version) ── */
+.dot-grid-light{background-image:radial-gradient(rgba(22,163,74,0.15) 1px,transparent 1px);background-size:28px 28px}
+.dot-grid-dark{background-image:radial-gradient(rgba(34,197,94,0.22) 1px,transparent 1px);background-size:28px 28px}
+
+/* ── MOBILE MENU ── */
+#mmenu{transform:translateX(100%);transition:transform .3s ease}
+#mmenu.open{transform:translateX(0)}
+
+/* ── FORM ── */
+.fi{background:#fff;border:1.5px solid var(--border);color:var(--text);border-radius:10px;padding:.7rem 1rem;font-size:.875rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.fi:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+.fi::placeholder{color:var(--text-xs)}
+select.fi option{background:#fff;color:var(--text)}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid var(--green-mid);border-radius:999px;padding:.35rem .9rem;font-size:.75rem;font-weight:600;color:var(--green)}
+.badge-dark{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:999px;padding:.35rem .9rem;font-size:.75rem;font-weight:600;color:#4ade80}
+
+/* ── TINT ── */
+.tint-b{background:linear-gradient(to top,rgba(3,12,3,.88) 0%,rgba(3,12,3,.1) 60%,transparent 100%)}
+.tint-w{background:linear-gradient(to top,rgba(255,255,255,.92) 0%,rgba(255,255,255,.3) 60%,transparent 100%)}
+
+/* ── MOBILE SLIDE ── */
+.mslide{display:none}.mslide.active{display:block}
+
+/* ── 3D Device ── */
+.dev3d{transform:perspective(1200px) rotateY(-11deg) rotateX(4deg);transition:transform .5s ease}
+.dev3d:hover{transform:perspective(1200px) rotateY(-5deg) rotateX(2deg)}
+.logwrap{max-height:160px;overflow:hidden}
+
+/* ── STAT ── */
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:18px;transition:all .25s ease}
+.stat-card:hover{border-color:var(--green);box-shadow:0 8px 32px rgba(22,163,74,.12);transform:translateY(-3px)}
+
+/* ── SECTION alternating ── */
+.sec-white{background:#ffffff}
+.sec-tinted{background:#f9fafb}
+.sec-green{background:var(--green-bg)}
+.sec-dark{background:var(--dark)}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:#f0fdf4}
+::-webkit-scrollbar-thumb{background:var(--green);border-radius:3px}
+</style>
+</head>
+<body>
+<!-- ══ NAV ══ -->
+<nav id="nav" style="position:fixed;top:0;left:0;right:0;z-index:50;height:64px;background:#fff;border-bottom:1px solid var(--border);transition:all .3s ease">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem;height:100%;display:flex;align-items:center;justify-content:space-between">
+    <a href="#" style="display:flex;align-items:center;text-decoration:none">
+      <img src="logo.jpg" alt="Lambo Technologies" style="height:42px;width:auto;object-fit:contain"/>
+    </a>
+    <div class="desktop-nav" style="display:flex;align-items:center;gap:1.75rem">
+      <a href="#services"     style="font-size:.875rem;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Services</a>
+      <a href="#whyus"        style="font-size:.875rem;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Why Us</a>
+      <a href="#portfolio"    style="font-size:.875rem;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Work</a>
+      <a href="#secdemo"      style="font-size:.875rem;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Security</a>
+      <a href="#testimonials" style="font-size:.875rem;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Clients</a>
+      <a href="#about"        style="font-size:.875rem;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">About</a>
+      <a href="#contact"      style="font-size:.875rem;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Contact</a>
+    </div>
+    <a href="#contact" class="desktop-cta" style="font-size:.875rem;font-weight:600;padding:.65rem 1.4rem;border-radius:10px;background:var(--green);color:#fff;text-decoration:none;transition:all .2s;box-shadow:0 2px 12px rgba(22,163,74,.25)" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='var(--green)'">Get Consultation</a>
+    <button id="ham" onclick="toggleMenu()" style="display:none;flex-direction:column;gap:5px;align-items:center;justify-content:center;width:38px;height:38px;background:var(--green-bg);border:1px solid var(--green-mid);border-radius:9px;cursor:pointer;padding:0">
+      <span id="b1" style="display:block;width:16px;height:2px;background:var(--green);border-radius:1px;transition:all .3s"></span>
+      <span id="b2" style="display:block;width:16px;height:2px;background:var(--green);border-radius:1px;transition:all .3s"></span>
+      <span id="b3" style="display:block;width:16px;height:2px;background:var(--green);border-radius:1px;transition:all .3s"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mmenu" style="position:fixed;inset-y:0;right:0;z-index:40;width:280px;background:#fff;border-left:1px solid var(--border);display:flex;flex-direction:column;padding:72px 1.25rem 2rem;gap:2px;box-shadow:-8px 0 32px rgba(0,0,0,.08)">
+  <a href="#services"     onclick="closeMob()" style="padding:.8rem .75rem;color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem;font-weight:500;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Services</a>
+  <a href="#whyus"        onclick="closeMob()" style="padding:.8rem .75rem;color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem;font-weight:500;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Why Us</a>
+  <a href="#portfolio"    onclick="closeMob()" style="padding:.8rem .75rem;color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem;font-weight:500;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Our Work</a>
+  <a href="#secdemo"      onclick="closeMob()" style="padding:.8rem .75rem;color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem;font-weight:500;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Security</a>
+  <a href="#testimonials" onclick="closeMob()" style="padding:.8rem .75rem;color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem;font-weight:500;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">Clients</a>
+  <a href="#about"        onclick="closeMob()" style="padding:.8rem .75rem;color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--border);font-size:.9rem;font-weight:500;transition:color .2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-mid)'">About</a>
+  <a href="#contact"      onclick="closeMob()" style="padding:.8rem .75rem;color:var(--text-mid);text-decoration:none;font-size:.9rem;font-weight:500">Contact</a>
+  <a href="#contact" onclick="closeMob()" style="margin-top:1rem;text-align:center;font-weight:600;padding:.85rem;border-radius:12px;background:var(--green);color:#fff;text-decoration:none">Get Consultation</a>
+</div>
+<div id="movl" onclick="closeMob()" style="display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.3)"></div>
+<!-- ══ HERO ══ -->
+<section style="min-height:100vh;display:flex;align-items:center;padding-top:64px;position:relative;overflow:hidden;background:var(--dark)">
+  <!-- BG photo -->
+  <div style="position:absolute;inset:0;overflow:hidden">
+    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=60&auto=format&fit=crop" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.08"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(3,12,3,.97) 0%,rgba(10,26,10,.85) 50%,rgba(3,12,3,.95) 100%)"></div>
+  </div>
+  <!-- Green dot grid -->
+  <div class="dot-grid-dark agrid" style="position:absolute;inset:0;opacity:.5;pointer-events:none"></div>
+  <!-- Glows -->
+  <div style="position:absolute;top:20%;left:10%;width:500px;height:500px;background:rgba(22,163,74,.09);border-radius:50%;filter:blur(100px);pointer-events:none"></div>
+  <div style="position:absolute;bottom:10%;right:5%;width:350px;height:350px;background:rgba(34,197,94,.06);border-radius:50%;filter:blur(80px);pointer-events:none"></div>
+
+  <div style="max-width:1280px;margin:0 auto;padding:4rem 1.5rem;width:100%;position:relative">
+    <div id="hero-grid" style="display:grid;grid-template-columns:1fr;gap:4rem;align-items:center">
+      <!-- Text -->
+      <div>
+        <div class="badge-dark" style="margin-bottom:1.5rem">
+          <span class="abl" style="width:6px;height:6px;background:#4ade80;border-radius:50%;display:inline-block;flex-shrink:0"></span>
+          Dar es Salaam — Enterprise ICT &amp; Security
+        </div>
+        <h1 style="font-size:clamp(2.8rem,6vw,4.8rem);font-weight:800;line-height:1.02;letter-spacing:-.025em;margin-bottom:1.5rem;color:#fff">
+          Secure.<br/>
+          <span style="color:var(--green-xlt)">Connect.</span><br/>
+          Automate.
+        </h1>
+        <p style="color:#9ca3af;font-size:1.1rem;line-height:1.78;max-width:28rem;margin-bottom:2.25rem">Enterprise-grade cybersecurity, networking and smart infrastructure — built for forward-thinking organisations across Tanzania and beyond.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2.5rem">
+          <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;font-weight:700;padding:.9rem 1.75rem;border-radius:12px;text-decoration:none;font-size:.95rem;box-shadow:0 4px 24px rgba(22,163,74,.4);transition:all .2s" onmouseover="this.style.background='#15803d';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--green)';this.style.transform=''">Get Consultation <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+          <a href="#services" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#fff;font-weight:500;padding:.9rem 1.75rem;border-radius:12px;text-decoration:none;font-size:.95rem;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.12)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.transform=''">Explore Services <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></a>
+        </div>
+        <!-- Trust bar -->
+        <div style="display:flex;flex-wrap:wrap;gap:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.07)">
+          <div style="text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--green-xlt)">24/7</div><div style="font-size:.72rem;color:#6b7280;margin-top:2px">Support</div></div>
+          <div style="width:1px;background:rgba(255,255,255,.08)"></div>
+          <div style="text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--green-xlt)">99.97%</div><div style="font-size:.72rem;color:#6b7280;margin-top:2px">Uptime SLA</div></div>
+          <div style="width:1px;background:rgba(255,255,255,.08)"></div>
+          <div style="text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--green-xlt)">120+</div><div style="font-size:.72rem;color:#6b7280;margin-top:2px">Clients</div></div>
+          <div style="width:1px;background:rgba(255,255,255,.08)"></div>
+          <div style="text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--green-xlt)">48h</div><div style="font-size:.72rem;color:#6b7280;margin-top:2px">Deployment</div></div>
+        </div>
+      </div>
+      <!-- Floating dashboard cards (desktop) -->
+      <div id="hero-cards" style="display:none;position:relative">
+        <!-- Main chart card -->
+        <div style="background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.25rem;margin-bottom:.75rem" class="af">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+            <span style="font-size:.75rem;color:#6b7280;font-weight:500">Network Security Overview</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:.72rem;color:#4ade80;font-weight:500"><span class="abl" style="width:6px;height:6px;background:#4ade80;border-radius:50%;display:inline-block"></span>All Systems Active</span>
+          </div>
+          <svg viewBox="0 0 310 95" style="width:100%">
+            <defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#16a34a" stop-opacity=".35"/><stop offset="100%" stop-color="#16a34a" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0 78 Q45 58 85 50 T175 30 T260 17 T310 10" stroke="#22c55e" stroke-width="2.5" fill="none" class="adash"/>
+            <path d="M0 78 Q45 58 85 50 T175 30 T260 17 T310 10 L310 95 L0 95Z" fill="url(#gg)"/>
+            <circle cx="85" cy="50" r="4" fill="#22c55e" class="anp" style="animation-delay:.3s"/>
+            <circle cx="175" cy="30" r="4" fill="#22c55e" class="anp" style="animation-delay:.7s"/>
+            <circle cx="260" cy="17" r="4" fill="#22c55e" class="anp" style="animation-delay:1.1s"/>
+          </svg>
+        </div>
+        <!-- 2 small cards -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+          <div style="background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1rem" class="afb">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:.6rem">
+              <div style="width:28px;height:28px;background:rgba(74,222,128,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(74,222,128,.25)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="m15 10 4.553-2.069A1 1 0 0 1 21 8.87v6.26a1 1 0 0 1-1.447.894L15 14"/><rect x="2" y="6" width="13" height="12" rx="2"/></svg></div>
+              <span style="font-size:.7rem;color:#9ca3af">CCTV Feeds</span>
+            </div>
+            <div style="font-weight:800;font-size:1.7rem;color:#fff;font-family:'Plus Jakarta Sans',sans-serif">16</div>
+            <div style="font-size:.7rem;color:#4ade80;margin-top:2px">All recording</div>
+          </div>
+          <div style="background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1rem" class="af" style="animation-delay:1s">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:.6rem">
+              <div style="width:28px;height:28px;background:rgba(74,222,128,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(74,222,128,.25)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg></div>
+              <span style="font-size:.7rem;color:#9ca3af">Smart Devices</span>
+            </div>
+            <div style="font-weight:800;font-size:1.7rem;color:#fff;font-family:'Plus Jakarta Sans',sans-serif">48</div>
+            <div style="font-size:.7rem;color:#4ade80;margin-top:2px">↑ 4 new today</div>
+          </div>
+        </div>
+        <!-- Uptime card -->
+        <div style="background:rgba(22,163,74,.12);backdrop-filter:blur(16px);border:1px solid rgba(34,197,94,.25);border-radius:14px;padding:1rem" class="afb">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:.7rem;color:#9ca3af;margin-bottom:4px">Network Uptime</div>
+              <div style="font-weight:800;font-size:1.3rem;color:#fff;font-family:'Plus Jakarta Sans',sans-serif">99.97%</div>
+              <div style="font-size:.68rem;color:#4ade80;margin-top:3px">↑ 30-day average</div>
+            </div>
+            <div style="position:relative;width:54px;height:54px">
+              <svg viewBox="0 0 40 40" style="width:100%;height:100%;transform:rotate(-90deg)"><circle cx="20" cy="20" r="15" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="4"/><circle cx="20" cy="20" r="15" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="94 100" stroke-linecap="round"/></svg>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#4ade80">99%</div>
+            </div>
+          </div>
+        </div>
+        <div class="aspin" style="position:absolute;right:-3.5rem;top:-3.5rem;width:16rem;height:16rem;border-radius:50%;border:1px solid rgba(34,197,94,.1);pointer-events:none"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Wave divider -->
+  <div style="position:absolute;bottom:0;left:0;right:0;line-height:0">
+    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><path d="M0 60L1440 60L1440 20C1200 55 960 65 720 45C480 25 240 5 0 30Z" fill="#ffffff"/></svg>
+  </div>
+</section>
+
+<!-- ══ PHOTO STRIP ══ -->
+<div style="background:#f9fafb;border-bottom:1px solid var(--border);overflow:hidden;padding:2rem 0">
+  <div class="astrip" style="display:flex;gap:12px;width:max-content">
+    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=380&h=210&q=70&auto=format&fit=crop" alt="Server room" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1557862921-37829c790f19?w=380&h=210&q=70&auto=format&fit=crop" alt="CCTV" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=380&h=210&q=70&auto=format&fit=crop" alt="Network" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=380&h=210&q=70&auto=format&fit=crop" alt="Smart home" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=380&h=210&q=70&auto=format&fit=crop" alt="Cabling" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=380&h=210&q=70&auto=format&fit=crop" alt="Security camera" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=380&h=210&q=70&auto=format&fit=crop" alt="Cybersecurity" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=380&h=210&q=70&auto=format&fit=crop" alt="Engineer" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=380&h=210&q=70&auto=format&fit=crop" alt="Server room" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1557862921-37829c790f19?w=380&h=210&q=70&auto=format&fit=crop" alt="CCTV" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=380&h=210&q=70&auto=format&fit=crop" alt="Network" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=380&h=210&q=70&auto=format&fit=crop" alt="Smart home" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=380&h=210&q=70&auto=format&fit=crop" alt="Cabling" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=380&h=210&q=70&auto=format&fit=crop" alt="Security camera" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=380&h=210&q=70&auto=format&fit=crop" alt="Cybersecurity" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+    <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=380&h=210&q=70&auto=format&fit=crop" alt="Engineer" style="width:265px;height:150px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)"/>
+  </div>
+</div>
+<!-- ══ SERVICES ══ -->
+<section id="services" style="padding:6rem 0;background:#fff">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem">
+      <div class="badge" style="margin-bottom:1.25rem">Our Services</div>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--text);margin-bottom:.9rem">Everything your organisation needs.<br/><span style="color:var(--green)">One trusted partner.</span></h2>
+      <p style="color:var(--text-soft);font-size:1.05rem;max-width:34rem;margin:0 auto">From threat detection to smart automation — we engineer the digital backbone of modern enterprise.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1.25rem">
+
+      <div class="svc-card reveal d1">
+        <div style="height:175px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=560&h=340&q=80&auto=format&fit=crop" alt="Cybersecurity" class="thumb" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div style="position:absolute;bottom:10px;left:14px;width:34px;height:34px;background:rgba(22,163,74,.85);border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div></div>
+        <div style="padding:1.4rem"><h3 style="font-weight:700;font-size:1.08rem;color:var(--text);margin-bottom:.4rem">Cybersecurity Solutions</h3><p style="color:var(--text-soft);font-size:.85rem;line-height:1.65;margin-bottom:1.1rem">Advanced threat protection, endpoint security, SOC monitoring and incident response tailored for your risk profile.</p><a href="#contact" style="display:inline-flex;align-items:center;gap:5px;font-size:.84rem;font-weight:600;color:var(--green);text-decoration:none">Learn More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <div style="height:175px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=560&h=340&q=80&auto=format&fit=crop" alt="Networking" class="thumb" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div style="position:absolute;bottom:10px;left:14px;width:34px;height:34px;background:rgba(22,163,74,.85);border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><path d="M5 8v8a5 5 0 0 0 5 5h2"/><path d="M19 8v2"/></svg></div></div>
+        <div style="padding:1.4rem"><h3 style="font-weight:700;font-size:1.08rem;color:var(--text);margin-bottom:.4rem">Network Infrastructure</h3><p style="color:var(--text-soft);font-size:.85rem;line-height:1.65;margin-bottom:1.1rem">Enterprise LAN/WAN design, SD-WAN, structured cabling, routing and switching — built for performance and redundancy.</p><a href="#contact" style="display:inline-flex;align-items:center;gap:5px;font-size:.84rem;font-weight:600;color:var(--green);text-decoration:none">Learn More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+      </div>
+
+      <div class="svc-card reveal d3">
+        <div style="height:175px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1557862921-37829c790f19?w=560&h=340&q=80&auto=format&fit=crop" alt="CCTV installation" class="thumb" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div style="position:absolute;bottom:10px;left:14px;width:34px;height:34px;background:rgba(22,163,74,.85);border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="m15 10 4.553-2.069A1 1 0 0 1 21 8.87v6.26a1 1 0 0 1-1.447.894L15 14"/><rect x="2" y="6" width="13" height="12" rx="2"/><circle cx="8.5" cy="12" r="2"/></svg></div></div>
+        <div style="padding:1.4rem"><h3 style="font-weight:700;font-size:1.08rem;color:var(--text);margin-bottom:.4rem">CCTV &amp; Surveillance</h3><p style="color:var(--text-soft);font-size:.85rem;line-height:1.65;margin-bottom:1.1rem">IP camera systems, NVR/DVR, PTZ deployments, AI-powered motion analytics and remote access for any scale.</p><a href="#contact" style="display:inline-flex;align-items:center;gap:5px;font-size:.84rem;font-weight:600;color:var(--green);text-decoration:none">Learn More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+      </div>
+
+      <div class="svc-card reveal d1">
+        <div style="height:175px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=560&h=340&q=80&auto=format&fit=crop" alt="Smart Home" class="thumb" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div style="position:absolute;bottom:10px;left:14px;width:34px;height:34px;background:rgba(22,163,74,.85);border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div></div>
+        <div style="padding:1.4rem"><h3 style="font-weight:700;font-size:1.08rem;color:var(--text);margin-bottom:.4rem">Smart Home Automation</h3><p style="color:var(--text-soft);font-size:.85rem;line-height:1.65;margin-bottom:1.1rem">Integrated lighting, climate, access control and entertainment — centralised, voice-enabled and intelligently automated.</p><a href="#contact" style="display:inline-flex;align-items:center;gap:5px;font-size:.84rem;font-weight:600;color:var(--green);text-decoration:none">Learn More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <div style="height:175px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=560&h=340&q=80&auto=format&fit=crop" alt="IT Support" class="thumb" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div style="position:absolute;bottom:10px;left:14px;width:34px;height:34px;background:rgba(22,163,74,.85);border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div></div>
+        <div style="padding:1.4rem"><h3 style="font-weight:700;font-size:1.08rem;color:var(--text);margin-bottom:.4rem">IT Support &amp; Maintenance</h3><p style="color:var(--text-soft);font-size:.85rem;line-height:1.65;margin-bottom:1.1rem">Proactive helpdesk, remote monitoring, hardware procurement, server management and preventive maintenance contracts.</p><a href="#contact" style="display:inline-flex;align-items:center;gap:5px;font-size:.84rem;font-weight:600;color:var(--green);text-decoration:none">Learn More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+      </div>
+
+      <div class="svc-card reveal d3">
+        <div style="height:175px;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=560&h=340&q=80&auto=format&fit=crop" alt="Cloud" class="thumb" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div style="position:absolute;bottom:10px;left:14px;width:34px;height:34px;background:rgba(22,163,74,.85);border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div></div>
+        <div style="padding:1.4rem"><h3 style="font-weight:700;font-size:1.08rem;color:var(--text);margin-bottom:.4rem">Cloud &amp; Backup Solutions</h3><p style="color:var(--text-soft);font-size:.85rem;line-height:1.65;margin-bottom:1.1rem">Hybrid cloud migration, data backup, disaster recovery and Microsoft 365 — zero data loss guaranteed.</p><a href="#contact" style="display:inline-flex;align-items:center;gap:5px;font-size:.84rem;font-weight:600;color:var(--green);text-decoration:none">Learn More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ══ WHY US ══ -->
+<section id="whyus" style="padding:6rem 0;background:var(--dark)">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem">
+      <div class="badge-dark" style="margin-bottom:1.25rem">Why Lambo Technologies</div>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:#fff;margin-bottom:.9rem">Built for enterprise.<br/><span style="color:var(--green-xlt)">Delivered with precision.</span></h2>
+    </div>
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(255,255,255,.07);border-radius:20px;overflow:hidden;margin-bottom:3.5rem;border:1px solid rgba(255,255,255,.07)">
+      <div class="reveal d1" style="padding:2rem;text-align:center;background:var(--dark2)">
+        <div style="font-size:2.6rem;font-weight:800;color:var(--green-xlt);font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:.25rem"><span class="counter" data-target="24">0</span>/7</div>
+        <div style="font-size:.85rem;color:#6b7280">Always-On Support</div>
+      </div>
+      <div class="reveal d2" style="padding:2rem;text-align:center;background:var(--dark2)">
+        <div style="font-size:2.6rem;font-weight:800;color:var(--green-xlt);font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:.25rem"><span class="counter" data-target="48">0</span>h</div>
+        <div style="font-size:.85rem;color:#6b7280">Avg Deployment</div>
+      </div>
+      <div class="reveal d3" style="padding:2rem;text-align:center;background:var(--dark2)">
+        <div style="font-size:2.6rem;font-weight:800;color:var(--green-xlt);font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:.25rem"><span class="counter" data-target="99">0</span><span style="font-size:1.4rem">.97%</span></div>
+        <div style="font-size:.85rem;color:#6b7280">Uptime SLA</div>
+      </div>
+      <div class="reveal d4" style="padding:2rem;text-align:center;background:var(--dark2)">
+        <div style="font-size:2.6rem;font-weight:800;color:var(--green-xlt);font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:.25rem"><span class="counter" data-target="120">0</span>+</div>
+        <div style="font-size:.85rem;color:#6b7280">Clients Served</div>
+      </div>
+    </div>
+    <!-- Features -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1rem;margin-bottom:3rem">
+      <div class="reveal d1" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.6rem;display:flex;gap:1rem">
+        <div style="width:40px;height:40px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div><h4 style="font-weight:700;color:#fff;margin-bottom:.35rem">Proactive Monitoring</h4><p style="color:#6b7280;font-size:.85rem;line-height:1.65">We detect and neutralise threats before they impact your operations. Our SOC team watches your infrastructure 24/7.</p></div>
+      </div>
+      <div class="reveal d2" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.6rem;display:flex;gap:1rem">
+        <div style="width:40px;height:40px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div><h4 style="font-weight:700;color:#fff;margin-bottom:.35rem">Rapid Deployment</h4><p style="color:#6b7280;font-size:.85rem;line-height:1.65">From scoping to go-live in days, not months. Our certified engineers follow a battle-tested delivery framework.</p></div>
+      </div>
+      <div class="reveal d3" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.6rem;display:flex;gap:1rem">
+        <div style="width:40px;height:40px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div><h4 style="font-weight:700;color:#fff;margin-bottom:.35rem">Vendor-Agnostic Expertise</h4><p style="color:#6b7280;font-size:.85rem;line-height:1.65">We recommend the right tools — Cisco, Fortinet, Hikvision, Ubiquiti — not what earns us the highest margin.</p></div>
+      </div>
+      <div class="reveal d4" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.6rem;display:flex;gap:1rem">
+        <div style="width:40px;height:40px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+        <div><h4 style="font-weight:700;color:#fff;margin-bottom:.35rem">Local Knowledge. Global Standards.</h4><p style="color:#6b7280;font-size:.85rem;line-height:1.65">We understand Tanzania's technology landscape while applying internationally recognised security frameworks.</p></div>
+      </div>
+    </div>
+    <!-- 3 photos -->
+    <div class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+      <div style="border-radius:14px;overflow:hidden;height:180px;position:relative"><img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=560&h=360&q=75&auto=format&fit=crop" alt="Field engineering" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><span style="position:absolute;bottom:10px;left:12px;font-size:.72rem;font-weight:600;color:#fff;background:rgba(22,163,74,.8);padding:.2rem .6rem;border-radius:6px">Field Engineering</span></div>
+      <div style="border-radius:14px;overflow:hidden;height:180px;position:relative"><img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=560&h=360&q=75&auto=format&fit=crop" alt="CCTV install" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><span style="position:absolute;bottom:10px;left:12px;font-size:.72rem;font-weight:600;color:#fff;background:rgba(22,163,74,.8);padding:.2rem .6rem;border-radius:6px">CCTV Installation</span></div>
+      <div style="border-radius:14px;overflow:hidden;height:180px;position:relative"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=560&h=360&q=75&auto=format&fit=crop" alt="Infrastructure" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><span style="position:absolute;bottom:10px;left:12px;font-size:.72rem;font-weight:600;color:#fff;background:rgba(22,163,74,.8);padding:.2rem .6rem;border-radius:6px">Infrastructure</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PORTFOLIO ══ -->
+<section id="portfolio" style="padding:6rem 0;background:#f9fafb">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem">
+    <div class="reveal" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:1.5rem;margin-bottom:3rem">
+      <div><div class="badge" style="margin-bottom:1rem">Project Showcase</div><h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--text)">What we've built.</h2></div>
+      <p style="color:var(--text-soft);max-width:22rem;font-size:.95rem">Real deployments. Measurable outcomes. Every project engineered to last.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1.25rem">
+
+      <div class="port-card reveal d1"><div style="aspect-ratio:4/3;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=480&q=80&auto=format&fit=crop" class="pimg" alt="Data centre" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div class="port-ov" style="position:absolute;inset:0;background:rgba(22,163,74,.18);display:flex;align-items:center;justify-content:center"><span style="background:var(--green);color:#fff;padding:.5rem 1.1rem;border-radius:10px;font-size:.84rem;font-weight:600">View Project →</span></div></div><div style="padding:1.25rem"><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem">Enterprise Data Centre</div><div style="font-size:.75rem;color:var(--text-soft);margin-bottom:.8rem">Dar es Salaam HQ — Dual-rack, full redundancy</div><span style="background:var(--green-bg);border:1px solid var(--green-mid);color:var(--green);padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600">Infrastructure</span></div></div>
+
+      <div class="port-card reveal d2"><div style="aspect-ratio:4/3;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=640&h=480&q=80&auto=format&fit=crop" class="pimg" alt="CCTV installation" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div class="port-ov" style="position:absolute;inset:0;background:rgba(22,163,74,.18);display:flex;align-items:center;justify-content:center"><span style="background:var(--green);color:#fff;padding:.5rem 1.1rem;border-radius:10px;font-size:.84rem;font-weight:600">View Project →</span></div><span style="position:absolute;top:10px;right:10px;background:rgba(22,163,74,.9);border-radius:20px;padding:.25rem .65rem;display:inline-flex;align-items:center;gap:5px;font-size:.68rem;color:#fff;font-weight:600"><span class="abl" style="width:5px;height:5px;background:#fff;border-radius:50%;display:inline-block"></span>Recording</span></div><div style="padding:1.25rem"><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem">16-Camera CCTV System</div><div style="font-size:.75rem;color:var(--text-soft);margin-bottom:.8rem">Commercial complex — AI analytics enabled</div><span style="background:var(--green-bg);border:1px solid var(--green-mid);color:var(--green);padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600">CCTV</span></div></div>
+
+      <div class="port-card reveal d3"><div style="aspect-ratio:4/3;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=640&h=480&q=80&auto=format&fit=crop" class="pimg" alt="Smart home" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div class="port-ov" style="position:absolute;inset:0;background:rgba(22,163,74,.18);display:flex;align-items:center;justify-content:center"><span style="background:var(--green);color:#fff;padding:.5rem 1.1rem;border-radius:10px;font-size:.84rem;font-weight:600">View Project →</span></div></div><div style="padding:1.25rem"><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem">Luxury Smart Home</div><div style="font-size:.75rem;color:var(--text-soft);margin-bottom:.8rem">Kinondoni, DSM — Full KNX integration</div><span style="background:var(--green-bg);border:1px solid var(--green-mid);color:var(--green);padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600">Smart Home</span></div></div>
+
+      <div class="port-card reveal d1"><div style="aspect-ratio:4/3;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=640&h=480&q=80&auto=format&fit=crop" class="pimg" alt="Network" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div class="port-ov" style="position:absolute;inset:0;background:rgba(22,163,74,.18);display:flex;align-items:center;justify-content:center"><span style="background:var(--green);color:#fff;padding:.5rem 1.1rem;border-radius:10px;font-size:.84rem;font-weight:600">View Project →</span></div></div><div style="padding:1.25rem"><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem">Office Network Deployment</div><div style="font-size:.75rem;color:var(--text-soft);margin-bottom:.8rem">Msasani, DSM — 200-user capacity</div><span style="background:var(--green-bg);border:1px solid var(--green-mid);color:var(--green);padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600">Networking</span></div></div>
+
+      <div class="port-card reveal d2"><div style="aspect-ratio:4/3;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=640&h=480&q=80&auto=format&fit=crop" class="pimg" alt="Security audit" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div class="port-ov" style="position:absolute;inset:0;background:rgba(22,163,74,.18);display:flex;align-items:center;justify-content:center"><span style="background:var(--green);color:#fff;padding:.5rem 1.1rem;border-radius:10px;font-size:.84rem;font-weight:600">View Project →</span></div></div><div style="padding:1.25rem"><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem">Security Audit &amp; Hardening</div><div style="font-size:.75rem;color:var(--text-soft);margin-bottom:.8rem">Financial institution — full pentest</div><span style="background:var(--green-bg);border:1px solid var(--green-mid);color:var(--green);padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600">Cybersecurity</span></div></div>
+
+      <div class="port-card reveal d3"><div style="aspect-ratio:4/3;overflow:hidden;position:relative"><img src="https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=640&h=480&q=80&auto=format&fit=crop" class="pimg" alt="Cloud" style="width:100%;height:100%;object-fit:cover"/><div class="tint-b" style="position:absolute;inset:0"></div><div class="port-ov" style="position:absolute;inset:0;background:rgba(22,163,74,.18);display:flex;align-items:center;justify-content:center"><span style="background:var(--green);color:#fff;padding:.5rem 1.1rem;border-radius:10px;font-size:.84rem;font-weight:600">View Project →</span></div></div><div style="padding:1.25rem"><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem">Hybrid Cloud Migration</div><div style="font-size:.75rem;color:var(--text-soft);margin-bottom:.8rem">Retail chain — 5-branch M365 rollout</div><span style="background:var(--green-bg);border:1px solid var(--green-mid);color:var(--green);padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600">Cloud</span></div></div>
+
+    </div>
+  </div>
+</section>
+<!-- ══ SECURITY DASHBOARD ══ -->
+<section id="secdemo" style="padding:6rem 0 8rem;background:#fff;position:relative;overflow:hidden">
+  <div class="dot-grid-light agrid" style="position:absolute;inset:0;opacity:.7;pointer-events:none"></div>
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem;position:relative">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem">
+      <div class="badge" style="margin-bottom:1.25rem">Live Security Operations</div>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--text);margin-bottom:.9rem">Your infrastructure.<br/><span style="color:var(--green)">Fully visible. Always protected.</span></h2>
+      <p style="color:var(--text-soft);font-size:1.05rem;max-width:38rem;margin:0 auto">Real-time visibility across every endpoint, connection and threat vector — from our security operations centre.</p>
+    </div>
+    <div class="dev3d reveal" style="max-width:860px;margin:0 auto">
+      <div style="background:linear-gradient(to bottom,#d1d5db,#9ca3af);border-radius:18px;padding:7px;box-shadow:0 40px 80px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.08)">
+        <div style="background:var(--dark);border-radius:12px;overflow:hidden;aspect-ratio:16/9">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column">
+            <!-- Top bar -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.55rem 1rem;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(10,26,10,.7)">
+              <div style="display:flex;align-items:center;gap:8px">
+                <img src="logo.jpg" alt="Lambo" style="height:18px;width:auto;object-fit:contain"/>
+                <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.7rem;color:#fff">Security Operations Centre</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;font-size:.6rem">
+                <span style="color:#4ade80;display:flex;align-items:center;gap:4px"><span class="abl" style="width:5px;height:5px;background:#4ade80;border-radius:50%;display:inline-block"></span>All Operational</span>
+                <span id="soc-clock" style="color:#6b7280">00:00:00</span>
+              </div>
+            </div>
+            <!-- Body -->
+            <div style="display:flex;flex:1;min-height:0">
+              <!-- Sidebar -->
+              <div style="width:80px;border-right:1px solid rgba(255,255,255,.05);background:rgba(10,26,10,.4);display:flex;flex-direction:column;gap:1px;padding:.4rem;flex-shrink:0">
+                <div style="display:flex;align-items:center;gap:4px;padding:.35rem .45rem;border-radius:6px;background:rgba(22,163,74,.18);color:#4ade80;font-size:.57rem"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Dashboard</div>
+                <div style="display:flex;align-items:center;gap:4px;padding:.35rem .45rem;color:#4b5563;font-size:.57rem"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Threats</div>
+                <div style="display:flex;align-items:center;gap:4px;padding:.35rem .45rem;color:#4b5563;font-size:.57rem"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Network</div>
+                <div style="display:flex;align-items:center;gap:4px;padding:.35rem .45rem;color:#4b5563;font-size:.57rem"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Endpoints</div>
+              </div>
+              <!-- Panels -->
+              <div style="flex:1;display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:5px;padding:5px;min-width:0">
+                <div style="background:rgba(10,26,10,.5);border-radius:8px;border:1px solid rgba(22,163,74,.15);padding:.55rem;display:flex;flex-direction:column">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;font-size:.58rem"><span style="color:#6b7280">Network Topology</span><span style="color:#4ade80">12 nodes active</span></div>
+                  <svg viewBox="0 0 230 88" style="flex:1;width:100%">
+                    <line x1="115" y1="44" x2="48" y2="20" stroke="rgba(34,197,94,.3)" stroke-width=".8" class="adash"/>
+                    <line x1="115" y1="44" x2="182" y2="20" stroke="rgba(34,197,94,.3)" stroke-width=".8" class="adash" style="animation-delay:.5s"/>
+                    <line x1="115" y1="44" x2="48" y2="68" stroke="rgba(34,197,94,.3)" stroke-width=".8" class="adash" style="animation-delay:1s"/>
+                    <line x1="115" y1="44" x2="182" y2="68" stroke="rgba(34,197,94,.3)" stroke-width=".8" class="adash" style="animation-delay:1.5s"/>
+                    <line x1="48" y1="20" x2="14" y2="8" stroke="rgba(34,197,94,.15)" stroke-width=".6"/>
+                    <line x1="182" y1="20" x2="216" y2="8" stroke="rgba(34,197,94,.15)" stroke-width=".6"/>
+                    <line x1="48" y1="68" x2="14" y2="80" stroke="rgba(34,197,94,.15)" stroke-width=".6"/>
+                    <line x1="182" y1="68" x2="216" y2="80" stroke="rgba(34,197,94,.15)" stroke-width=".6"/>
+                    <circle cx="115" cy="44" r="8" fill="rgba(22,163,74,.2)" stroke="#22c55e" stroke-width="1.2"/>
+                    <circle cx="115" cy="44" r="3" fill="#22c55e" class="anp"/>
+                    <text x="115" y="58" text-anchor="middle" fill="#6b7280" font-size="4.5">Gateway</text>
+                    <circle cx="48" cy="20" r="5" fill="rgba(22,163,74,.1)" stroke="#22c55e" stroke-width=".9" class="anp" style="animation-delay:.4s"/>
+                    <text x="48" y="13" text-anchor="middle" fill="#6b7280" font-size="4">Firewall</text>
+                    <circle cx="182" cy="20" r="5" fill="rgba(22,163,74,.1)" stroke="#22c55e" stroke-width=".9" class="anp" style="animation-delay:.8s"/>
+                    <text x="182" y="13" text-anchor="middle" fill="#6b7280" font-size="4">Switch</text>
+                    <circle cx="48" cy="68" r="5" fill="rgba(22,163,74,.1)" stroke="#22c55e" stroke-width=".9" class="anp" style="animation-delay:1.2s"/>
+                    <text x="48" y="81" text-anchor="middle" fill="#6b7280" font-size="4">AP-01</text>
+                    <circle cx="182" cy="68" r="5" fill="rgba(22,163,74,.1)" stroke="#22c55e" stroke-width=".9" class="anp" style="animation-delay:1.6s"/>
+                    <text x="182" y="81" text-anchor="middle" fill="#6b7280" font-size="4">AP-02</text>
+                    <circle cx="14" cy="8" r="2.8" fill="rgba(22,163,74,.25)" stroke="#4ade80" stroke-width=".7"/>
+                    <circle cx="216" cy="8" r="2.8" fill="rgba(22,163,74,.25)" stroke="#4ade80" stroke-width=".7"/>
+                    <circle cx="14" cy="80" r="2.8" fill="rgba(22,163,74,.25)" stroke="#4ade80" stroke-width=".7"/>
+                    <circle cx="216" cy="80" r="2.8" fill="rgba(22,163,74,.25)" stroke="#4ade80" stroke-width=".7"/>
+                    <circle cx="152" cy="32" r="4" fill="rgba(251,146,60,.15)" stroke="#fb923c" stroke-width=".8" class="anp" style="animation-delay:.2s"/>
+                    <text x="152" y="26" text-anchor="middle" fill="#fb923c" font-size="4">⚠ 1</text>
+                  </svg>
+                </div>
+                <div style="background:rgba(10,26,10,.5);border-radius:8px;border:1px solid rgba(22,163,74,.15);padding:.55rem;display:flex;flex-direction:column;overflow:hidden">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;font-size:.58rem"><span style="color:#6b7280">Attack Log</span><span class="abl" style="width:5px;height:5px;background:#fb923c;border-radius:50%;display:inline-block"></span></div>
+                  <div class="logwrap"><div id="alog" style="display:flex;flex-direction:column;gap:4px"></div></div>
+                </div>
+                <div style="background:rgba(10,26,10,.5);border-radius:8px;border:1px solid rgba(22,163,74,.15);padding:.55rem">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:.45rem;font-size:.58rem"><span style="color:#6b7280">Uptime</span><span style="color:#4ade80;font-weight:700">99.97%</span></div>
+                  <div style="display:flex;flex-direction:column;gap:5px">
+                    <div><div style="display:flex;justify-content:space-between;font-size:.52rem;color:#4b5563;margin-bottom:2px"><span>Core Network</span><span style="color:#4ade80">100%</span></div><div style="height:3px;background:rgba(255,255,255,.06);border-radius:2px"><div style="width:100%;height:100%;background:#22c55e;border-radius:2px"></div></div></div>
+                    <div><div style="display:flex;justify-content:space-between;font-size:.52rem;color:#4b5563;margin-bottom:2px"><span>Firewall</span><span style="color:#4ade80">99.9%</span></div><div style="height:3px;background:rgba(255,255,255,.06);border-radius:2px"><div style="width:99.9%;height:100%;background:#22c55e;border-radius:2px"></div></div></div>
+                    <div><div style="display:flex;justify-content:space-between;font-size:.52rem;color:#4b5563;margin-bottom:2px"><span>CCTV Feeds</span><span style="color:#4ade80">97.2%</span></div><div style="height:3px;background:rgba(255,255,255,.06);border-radius:2px"><div style="width:97.2%;height:100%;background:#22c55e;border-radius:2px"></div></div></div>
+                  </div>
+                </div>
+                <div style="background:rgba(10,26,10,.5);border-radius:8px;border:1px solid rgba(22,163,74,.15);padding:.55rem;display:flex;flex-direction:column;gap:5px">
+                  <div style="display:flex;justify-content:space-between;font-size:.58rem"><span style="color:#6b7280">Threat Level</span><span style="color:#4ade80;font-weight:700">LOW</span></div>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="position:relative;width:42px;height:42px;flex-shrink:0"><svg viewBox="0 0 40 40" style="width:100%;height:100%;transform:rotate(-90deg)"><circle cx="20" cy="20" r="15" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="5"/><circle cx="20" cy="20" r="15" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="14 100" stroke-linecap="round"/></svg><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.48rem;font-weight:700;color:#4ade80">14%</div></div>
+                    <div style="font-size:.52rem;color:#4b5563">246 secure<br/>2 alerts<br/><span style="color:#fff;font-weight:600">248 total</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height:12px;background:linear-gradient(to bottom,#d1d5db,#9ca3af);border-radius:0 0 12px 12px;margin:0 2rem"></div>
+      <div style="height:18px;background:#9ca3af;border-radius:0 0 8px 8px;margin:0 5rem;box-shadow:0 6px 20px rgba(0,0,0,.1)"></div>
+    </div>
+  </div>
+</section>
+<!-- ══ TESTIMONIALS ══ -->
+<section id="testimonials" style="padding:6rem 0;background:var(--green-bg)">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem">
+      <div class="badge" style="margin-bottom:1.25rem">Client Feedback</div>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--text);margin-bottom:.9rem">Trusted by organisations<br/><span style="color:var(--green)">across Tanzania.</span></h2>
+    </div>
+
+    <!-- Desktop 4-grid -->
+    <div id="dtesti" class="reveal" style="display:none;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:3rem">
+      <div style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.75rem;display:flex;flex-direction:column;justify-content:space-between;transition:all .3s" onmouseover="this.style.borderColor='var(--green)';this.style.boxShadow='0 8px 32px rgba(22,163,74,.1)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div><div style="color:#f59e0b;margin-bottom:.9rem;font-size:.95rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.92rem;line-height:1.75;font-style:italic;margin-bottom:1.5rem">"Lambo Technologies redesigned our entire network and deployed 32 cameras across 3 floors. Delivered on time, within budget — exceptional ongoing support."</blockquote></div>
+        <div style="display:flex;align-items:center;gap:10px;padding-top:1rem;border-top:1px solid var(--border)"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="James" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid);flex-shrink:0"/><div><div style="font-size:.88rem;font-weight:700;color:var(--text)">James Mwangi</div><div style="font-size:.72rem;color:var(--text-soft)">IT Director, CRDB Bank Tanzania</div></div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.75rem;display:flex;flex-direction:column;justify-content:space-between;transition:all .3s" onmouseover="this.style.borderColor='var(--green)';this.style.boxShadow='0 8px 32px rgba(22,163,74,.1)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div><div style="color:#f59e0b;margin-bottom:.9rem;font-size:.95rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.92rem;line-height:1.75;font-style:italic;margin-bottom:1.5rem">"Our smart home installation exceeded every expectation. Lighting, climate, security — perfectly integrated. The mobile app is flawless. Genuinely the best in the business."</blockquote></div>
+        <div style="display:flex;align-items:center;gap:10px;padding-top:1rem;border-top:1px solid var(--border)"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="Amina" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid);flex-shrink:0"/><div><div style="font-size:.88rem;font-weight:700;color:var(--text)">Amina Ndung'u</div><div style="font-size:.72rem;color:var(--text-soft)">Private Residence, Kinondoni</div></div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.75rem;display:flex;flex-direction:column;justify-content:space-between;transition:all .3s" onmouseover="this.style.borderColor='var(--green)';this.style.boxShadow='0 8px 32px rgba(22,163,74,.1)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div><div style="color:#f59e0b;margin-bottom:.9rem;font-size:.95rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.92rem;line-height:1.75;font-style:italic;margin-bottom:1.5rem">"After a ransomware incident at a competitor, we engaged Lambo Tech to harden our security posture. Comprehensive and professional — total confidence in our infrastructure."</blockquote></div>
+        <div style="display:flex;align-items:center;gap:10px;padding-top:1rem;border-top:1px solid var(--border)"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="David" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid);flex-shrink:0"/><div><div style="font-size:.88rem;font-weight:700;color:var(--text)">David Ochieng</div><div style="font-size:.72rem;color:var(--text-soft)">CTO, Akiba Commercial Bank</div></div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.75rem;display:flex;flex-direction:column;justify-content:space-between;transition:all .3s" onmouseover="this.style.borderColor='var(--green)';this.style.boxShadow='0 8px 32px rgba(22,163,74,.1)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div><div style="color:#f59e0b;margin-bottom:.9rem;font-size:.95rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.92rem;line-height:1.75;font-style:italic;margin-bottom:1.5rem">"We moved to a Lambo-designed SD-WAN setup. Downtime dropped by over 90%. Their team is responsive, knowledgeable and truly invested in our long-term success."</blockquote></div>
+        <div style="display:flex;align-items:center;gap:10px;padding-top:1rem;border-top:1px solid var(--border)"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="Brian" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid);flex-shrink:0"/><div><div style="font-size:.88rem;font-weight:700;color:var(--text)">Brian Kamau</div><div style="font-size:.72rem;color:var(--text-soft)">Operations Manager, NMB Bank</div></div></div>
+      </div>
+    </div>
+
+    <!-- Mobile carousel -->
+    <div id="mtesti" class="reveal">
+      <div style="position:relative;min-height:230px">
+        <div class="mslide active" style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.6rem"><div style="color:#f59e0b;margin-bottom:.75rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.9rem;line-height:1.7;font-style:italic;margin-bottom:1.25rem">"Lambo Technologies redesigned our entire network and deployed 32 cameras. Delivered on time, within budget — exceptional support."</blockquote><div style="display:flex;align-items:center;gap:10px"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="James" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid)"/><div><div style="font-size:.85rem;font-weight:700;color:var(--text)">James Mwangi</div><div style="font-size:.7rem;color:var(--text-soft)">IT Director, CRDB Bank</div></div></div></div>
+        <div class="mslide" style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.6rem"><div style="color:#f59e0b;margin-bottom:.75rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.9rem;line-height:1.7;font-style:italic;margin-bottom:1.25rem">"Smart home exceeded every expectation. Lighting, climate, security — perfectly integrated. The mobile app is flawless."</blockquote><div style="display:flex;align-items:center;gap:10px"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="Amina" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid)"/><div><div style="font-size:.85rem;font-weight:700;color:var(--text)">Amina Ndung'u</div><div style="font-size:.7rem;color:var(--text-soft)">Private Residence, Kinondoni</div></div></div></div>
+        <div class="mslide" style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.6rem"><div style="color:#f59e0b;margin-bottom:.75rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.9rem;line-height:1.7;font-style:italic;margin-bottom:1.25rem">"After a ransomware incident, Lambo Tech hardened our security posture. Comprehensive and professional — total confidence."</blockquote><div style="display:flex;align-items:center;gap:10px"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="David" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid)"/><div><div style="font-size:.85rem;font-weight:700;color:var(--text)">David Ochieng</div><div style="font-size:.7rem;color:var(--text-soft)">CTO, Akiba Commercial Bank</div></div></div></div>
+        <div class="mslide" style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:1.6rem"><div style="color:#f59e0b;margin-bottom:.75rem">★★★★★</div><blockquote style="color:var(--text-mid);font-size:.9rem;line-height:1.7;font-style:italic;margin-bottom:1.25rem">"Moved to Lambo-designed SD-WAN. Downtime dropped 90%. Responsive team, truly invested in our long-term success."</blockquote><div style="display:flex;align-items:center;gap:10px"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&q=80&auto=format&fit=crop&crop=face" alt="Brian" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--green-mid)"/><div><div style="font-size:.85rem;font-weight:700;color:var(--text)">Brian Kamau</div><div style="font-size:.7rem;color:var(--text-soft)">Operations, NMB Bank</div></div></div></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:1.5rem">
+        <button onclick="prevSlide()" style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);cursor:pointer;background:#fff;transition:all .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div id="sdots" style="display:flex;gap:6px"></div>
+        <button onclick="nextSlide()" style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);cursor:pointer;background:#fff;transition:all .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Client logos -->
+    <div class="reveal" style="margin-top:3.5rem;padding-top:3rem;border-top:1px solid var(--green-mid)">
+      <p style="text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-soft);margin-bottom:1.5rem;font-weight:600">Organisations we've worked with</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center"><span style="font-size:.75rem;font-weight:700;color:var(--text-mid)">CRDB Bank</span></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center"><span style="font-size:.75rem;font-weight:700;color:var(--text-mid)">NMB Bank</span></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center"><span style="font-size:.75rem;font-weight:700;color:var(--text-mid)">Vodacom TZ</span></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center"><span style="font-size:.75rem;font-weight:700;color:var(--text-mid)">Azam Media</span></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center"><span style="font-size:.75rem;font-weight:700;color:var(--text-mid)">TANESCO</span></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center"><span style="font-size:.75rem;font-weight:700;color:var(--text-mid)">UDSM</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ══ ABOUT ══ -->
+<section id="about" style="padding:6rem 0;background:#fff">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem">
+    <div id="about-grid" style="display:grid;grid-template-columns:1fr;gap:4rem;align-items:start">
+      <!-- Left -->
+      <div class="reveal">
+        <div class="badge" style="margin-bottom:1.5rem">About Us</div>
+        <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--text);line-height:1.1;margin-bottom:1.25rem">Technology that moves<br/><span style="color:var(--green)">Tanzania forward.</span></h2>
+        <p style="color:var(--text-mid);line-height:1.8;margin-bottom:1.1rem;font-size:.95rem">Lambo Technologies Limited is a specialist ICT and security solutions company with a singular focus: delivering technology infrastructure that organisations can depend on. Founded to bridge the gap between enterprise-grade solutions and accessible deployment, we serve businesses, institutions and residential clients across Tanzania and the wider East African region.</p>
+        <p style="color:var(--text-mid);line-height:1.8;margin-bottom:2rem;font-size:.95rem">Our certified engineers bring deep expertise across cybersecurity, networking, surveillance and automation — backed by a commitment to honest advisory, transparent pricing and long-term partnership.</p>
+        <div style="display:flex;flex-direction:column;gap:.9rem">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><div style="font-size:.92rem;font-weight:700;color:var(--text)">Integrity First</div><div style="font-size:.82rem;color:var(--text-soft);margin-top:2px">We recommend what's right for you, not what's easy for us.</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><div style="font-size:.92rem;font-weight:700;color:var(--text)">Technical Excellence</div><div style="font-size:.82rem;color:var(--text-soft);margin-top:2px">Certified professionals. Rigorous standards. No shortcuts.</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><div style="font-size:.92rem;font-weight:700;color:var(--text)">Long-term Partnership</div><div style="font-size:.82rem;color:var(--text-soft);margin-top:2px">We're invested in your growth — not just the initial deployment.</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- Right -->
+      <div class="reveal" style="display:flex;flex-direction:column;gap:1rem">
+        <div style="border-radius:16px;overflow:hidden;height:230px;position:relative">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=760&h=460&q=80&auto=format&fit=crop" alt="Tech team" style="width:100%;height:100%;object-fit:cover"/>
+          <div class="tint-b" style="position:absolute;inset:0"></div>
+          <div style="position:absolute;bottom:14px;left:14px">
+            <div style="background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-radius:10px;padding:.65rem .9rem;display:inline-flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,.12)">
+              <div style="width:28px;height:28px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <div><div style="font-size:.68rem;color:var(--text-soft)">Our Team</div><div style="font-size:.84rem;font-weight:700;color:var(--text)">25+ Certified Engineers</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.65rem">
+          <div style="border-radius:10px;overflow:hidden;height:88px"><img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=280&h=176&q=80&auto=format&fit=crop" alt="Engineer" style="width:100%;height:100%;object-fit:cover"/></div>
+          <div style="border-radius:10px;overflow:hidden;height:88px"><img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=280&h=176&q=80&auto=format&fit=crop" alt="CCTV install" style="width:100%;height:100%;object-fit:cover"/></div>
+          <div style="border-radius:10px;overflow:hidden;height:88px"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=280&h=176&q=80&auto=format&fit=crop" alt="Infrastructure" style="width:100%;height:100%;object-fit:cover"/></div>
+        </div>
+        <div style="background:var(--green-bg);border:1px solid var(--green-mid);border-radius:16px;padding:1.5rem">
+          <div style="margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--green-mid)">
+            <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:.4rem">Our Mission</div>
+            <p style="font-size:.86rem;color:var(--text-mid);line-height:1.72">To empower Tanzanian organisations with world-class ICT infrastructure — enabling them to operate securely, efficiently, and competitively on a global stage.</p>
+          </div>
+          <div style="margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--green-mid)">
+            <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:.4rem">Our Vision</div>
+            <p style="font-size:.86rem;color:var(--text-mid);line-height:1.72">To be the most trusted technology partner in the region — known for integrity, innovation, and measurable impact.</p>
+          </div>
+          <div>
+            <div style="font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-soft);margin-bottom:.65rem">Technology Partners</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.45rem">
+              <span style="background:#fff;border:1px solid var(--border);border-radius:7px;padding:.25rem .7rem;font-size:.73rem;font-weight:600;color:var(--text-mid)">Cisco</span>
+              <span style="background:#fff;border:1px solid var(--border);border-radius:7px;padding:.25rem .7rem;font-size:.73rem;font-weight:600;color:var(--text-mid)">Fortinet</span>
+              <span style="background:#fff;border:1px solid var(--border);border-radius:7px;padding:.25rem .7rem;font-size:.73rem;font-weight:600;color:var(--text-mid)">Hikvision</span>
+              <span style="background:#fff;border:1px solid var(--border);border-radius:7px;padding:.25rem .7rem;font-size:.73rem;font-weight:600;color:var(--text-mid)">Microsoft</span>
+              <span style="background:#fff;border:1px solid var(--border);border-radius:7px;padding:.25rem .7rem;font-size:.73rem;font-weight:600;color:var(--text-mid)">Ubiquiti</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ══ CONTACT ══ -->
+<section id="contact" style="padding:6rem 0;background:var(--dark);position:relative;overflow:hidden">
+  <div class="dot-grid-dark agrid" style="position:absolute;inset:0;opacity:.3;pointer-events:none"></div>
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem;position:relative">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem">
+      <div class="badge-dark" style="margin-bottom:1.25rem">Get in Touch</div>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:#fff;margin-bottom:.75rem">Start a conversation.</h2>
+      <p style="color:#6b7280;font-size:1.05rem">We respond within 4 hours on business days.</p>
+    </div>
+    <div id="contact-grid" style="display:grid;grid-template-columns:1fr;gap:2.5rem">
+      <!-- Form -->
+      <div style="background:#fff;border-radius:20px;padding:2rem" class="reveal">
+        <form id="cform" onsubmit="submitForm(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div><label style="display:block;font-size:.75rem;font-weight:600;color:var(--text-mid);margin-bottom:.45rem">Full Name</label><input type="text" placeholder="John Doe" class="fi" required/></div>
+            <div><label style="display:block;font-size:.75rem;font-weight:600;color:var(--text-mid);margin-bottom:.45rem">Email Address</label><input type="email" placeholder="john@company.com" class="fi" required/></div>
+          </div>
+          <div style="margin-bottom:1rem"><label style="display:block;font-size:.75rem;font-weight:600;color:var(--text-mid);margin-bottom:.45rem">Phone Number</label><input type="tel" placeholder="+255 700 000 000" class="fi"/></div>
+          <div style="margin-bottom:1rem"><label style="display:block;font-size:.75rem;font-weight:600;color:var(--text-mid);margin-bottom:.45rem">Service Needed</label>
+            <select class="fi"><option value="">Select a service...</option><option>Cybersecurity Solutions</option><option>Network Infrastructure</option><option>CCTV &amp; Surveillance</option><option>Smart Home Automation</option><option>IT Support &amp; Maintenance</option><option>Cloud &amp; Backup Solutions</option><option>Multiple Services</option></select>
+          </div>
+          <div style="margin-bottom:1.25rem"><label style="display:block;font-size:.75rem;font-weight:600;color:var(--text-mid);margin-bottom:.45rem">Message</label><textarea rows="4" placeholder="Tell us about your project or challenge..." class="fi" style="resize:none" required></textarea></div>
+          <button type="submit" style="width:100%;background:var(--green);color:#fff;font-weight:700;padding:.9rem 1.5rem;border-radius:12px;border:none;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;transition:all .2s;box-shadow:0 4px 16px rgba(22,163,74,.3)" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='var(--green)'">Send Message <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </form>
+        <div id="form-ok" style="display:none;text-align:center;padding:2.5rem 0">
+          <div style="width:64px;height:64px;background:var(--green-bg);border:2px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div style="font-weight:800;font-size:1.25rem;color:var(--text);margin-bottom:.4rem">Message Sent!</div>
+          <div style="color:var(--text-soft);font-size:.875rem">We'll get back to you within 4 hours.</div>
+        </div>
+      </div>
+      <!-- Info -->
+      <div class="reveal" style="display:flex;flex-direction:column;gap:1rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem">
+          <a href="https://wa.me/255700000000" target="_blank" style="background:rgba(22,163,74,.12);border:1px solid rgba(34,197,94,.25);border-radius:14px;padding:1.1rem;display:flex;align-items:center;gap:12px;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(22,163,74,.2)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(22,163,74,.12)';this.style.transform=''">
+            <div style="width:42px;height:42px;background:var(--green);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div><div style="font-size:.88rem;font-weight:700;color:#fff">WhatsApp</div><div style="font-size:.72rem;color:#4ade80">Chat instantly</div></div>
+          </a>
+          <a href="tel:+255700000000" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.1rem;display:flex;align-items:center;gap:12px;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.1)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.transform=''">
+            <div style="width:42px;height:42px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 5.73 5.73l1.79-1.79a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+            <div><div style="font-size:.88rem;font-weight:700;color:#fff">Call Us</div><div style="font-size:.72rem;color:#4ade80">+255 700 000 000</div></div>
+          </a>
+        </div>
+        <!-- Map photo -->
+        <div style="border-radius:16px;overflow:hidden;height:235px;position:relative;border:1px solid rgba(255,255,255,.08)">
+          <img src="https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=760&h=460&q=70&auto=format&fit=crop" alt="Dar es Salaam skyline" style="width:100%;height:100%;object-fit:cover;opacity:.35"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(3,12,3,.95),rgba(3,12,3,.5),rgba(3,12,3,.2))"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+            <div style="background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-radius:12px;padding:.85rem 1.4rem;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2)">
+              <div style="display:flex;justify-content:center;margin-bottom:.4rem"><img src="logo.jpg" alt="Lambo Technologies" style="height:28px;width:auto;object-fit:contain"/></div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px">Lambo Technologies Limited</div>
+              <div style="font-size:.7rem;color:var(--text-soft);margin-bottom:5px">Kinondoni, Dar es Salaam · Tanzania</div>
+              <a href="https://maps.google.com/?q=Kinondoni,Dar+es+Salaam,Tanzania" target="_blank" style="font-size:.7rem;color:var(--green);text-decoration:none;font-weight:600">Open in Maps →</a>
+            </div>
+          </div>
+        </div>
+        <!-- Email + hours -->
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.1rem;display:flex;flex-wrap:wrap;gap:1.5rem">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:36px;height:36px;background:rgba(22,163,74,.15);border:1px solid rgba(34,197,94,.25);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><div style="font-size:.7rem;color:#6b7280">Email</div><a href="mailto:info@lambotechnologies.co.tz" style="font-size:.84rem;color:#fff;text-decoration:none">info@lambotechnologies.co.tz</a></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:36px;height:36px;background:rgba(22,163,74,.15);border:1px solid rgba(34,197,94,.25);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <div><div style="font-size:.7rem;color:#6b7280">Hours</div><div style="font-size:.84rem;color:#fff">Mon–Sat · 8am–6pm EAT</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BANNER ══ -->
+<section style="padding:6rem 0;background:var(--green);position:relative;overflow:hidden">
+  <!-- subtle pattern -->
+  <div class="dot-grid-dark agrid" style="position:absolute;inset:0;opacity:.2;pointer-events:none"></div>
+  <div style="position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:rgba(255,255,255,.06);border-radius:50%;pointer-events:none"></div>
+  <div style="position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;background:rgba(0,0,0,.06);border-radius:50%;pointer-events:none"></div>
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;text-align:center;position:relative" class="reveal">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.4rem 1rem;margin-bottom:1.75rem">
+      <span class="abl" style="width:6px;height:6px;background:#fff;border-radius:50%;display:inline-block"></span>
+      <span style="font-size:.75rem;font-weight:600;color:#fff">Now serving Dar es Salaam &amp; across Tanzania</span>
+    </div>
+    <h2 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:1.25rem">Ready to secure and transform<br/>your infrastructure?</h2>
+    <p style="color:rgba(255,255,255,.8);font-size:1.05rem;max-width:32rem;margin:0 auto 2.5rem;line-height:1.75">Our consultants are ready to design a solution that fits your organisation, budget, and growth roadmap.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.9rem">
+      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--green);font-weight:800;padding:1rem 2rem;border-radius:12px;text-decoration:none;font-size:.95rem;transition:all .2s;box-shadow:0 4px 24px rgba(0,0,0,.15)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px rgba(0,0,0,.2)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px rgba(0,0,0,.15)'">Book a Free Consultation <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+      <a href="https://wa.me/255700000000" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.5);color:#fff;font-weight:600;padding:1rem 2rem;border-radius:12px;text-decoration:none;font-size:.95rem;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.25)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,.15)';this.style.transform=''"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>WhatsApp Us Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer style="background:var(--dark2);border-top:1px solid rgba(255,255,255,.06);padding:3.5rem 0 2rem">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2.5rem;margin-bottom:2.5rem">
+      <div>
+        <div style="margin-bottom:1rem"><img src="logo.jpg" alt="Lambo Technologies" style="height:38px;width:auto;object-fit:contain"/></div>
+        <p style="color:#4b5563;font-size:.84rem;line-height:1.65;margin-bottom:1.1rem">Enterprise ICT &amp; security solutions for modern Tanzanian organisations.</p>
+        <div style="display:flex;gap:8px">
+          <a href="#" style="width:32px;height:32px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseover="this.style.borderColor='var(--green)';this.style.background='rgba(22,163,74,.1)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='rgba(255,255,255,.05)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" style="width:32px;height:32px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseover="this.style.borderColor='var(--green)';this.style.background='rgba(22,163,74,.1)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='rgba(255,255,255,.05)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+          <a href="#" style="width:32px;height:32px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseover="this.style.borderColor='var(--green)';this.style.background='rgba(22,163,74,.1)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.background='rgba(255,255,255,.05)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:1rem">Services</div>
+        <div style="display:flex;flex-direction:column;gap:.55rem">
+          <a href="#services" style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Cybersecurity</a>
+          <a href="#services" style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Network Infrastructure</a>
+          <a href="#services" style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">CCTV &amp; Surveillance</a>
+          <a href="#services" style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Smart Home Automation</a>
+          <a href="#services" style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">IT Support</a>
+          <a href="#services" style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Cloud &amp; Backup</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:1rem">Company</div>
+        <div style="display:flex;flex-direction:column;gap:.55rem">
+          <a href="#about"        style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">About Us</a>
+          <a href="#portfolio"    style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Our Work</a>
+          <a href="#testimonials" style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Testimonials</a>
+          <a href="#contact"      style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Careers</a>
+          <a href="#contact"      style="font-size:.84rem;color:#4b5563;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#4b5563'">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:1rem">Certifications</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem">
+          <div style="background:rgba(22,163,74,.1);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:.5rem .75rem;display:flex;align-items:center;gap:7px;font-size:.73rem;color:#4ade80"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>ISO 27001 Aligned</div>
+          <div style="background:rgba(22,163,74,.1);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:.5rem .75rem;display:flex;align-items:center;gap:7px;font-size:.73rem;color:#4ade80"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Cisco Certified Partner</div>
+          <div style="background:rgba(22,163,74,.1);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:.5rem .75rem;display:flex;align-items:center;gap:7px;font-size:.73rem;color:#4ade80"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Microsoft Partner</div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.06);padding-top:1.6rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem">
+      <div style="font-size:.72rem;color:#374151">© 2026 Lambo Technologies Limited. All rights reserved.</div>
+      <div style="display:flex;gap:1.25rem"><a href="#" style="font-size:.72rem;color:#374151;text-decoration:none">Privacy Policy</a><a href="#" style="font-size:.72rem;color:#374151;text-decoration:none">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+// ── Responsive ──
+function applyR() {
+  var w = window.innerWidth;
+  var hg=document.getElementById('hero-grid'), hc=document.getElementById('hero-cards');
+  if(hg&&hc){ if(w>=1024){hg.style.gridTemplateColumns='1fr 1fr';hc.style.display='block';}else{hg.style.gridTemplateColumns='1fr';hc.style.display='none';} }
+  var ag=document.getElementById('about-grid');
+  if(ag) ag.style.gridTemplateColumns = w>=1024?'1fr 1fr':'1fr';
+  var cg=document.getElementById('contact-grid');
+  if(cg) cg.style.gridTemplateColumns = w>=1024?'1fr 1fr':'1fr';
+  var dt=document.getElementById('dtesti'), mt=document.getElementById('mtesti');
+  if(dt&&mt){ if(w>=1024){dt.style.display='grid';mt.style.display='none';}else{dt.style.display='none';mt.style.display='block';} }
+  var dn=document.querySelector('.desktop-nav'), dc=document.querySelector('.desktop-cta'), hm=document.getElementById('ham');
+  if(dn&&dc&&hm){ if(w>=768){dn.style.display='flex';dc.style.display='inline-block';hm.style.display='none';}else{dn.style.display='none';dc.style.display='none';hm.style.display='flex';} }
+}
+applyR(); window.addEventListener('resize', applyR);
+
+// ── Navbar scroll ──
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){
+  if(window.scrollY>10){
+    nav.style.boxShadow='0 1px 20px rgba(0,0,0,.08)';
+  } else {
+    nav.style.boxShadow='none';
+  }
+});
+
+// ── Mobile menu ──
+var mOpen=false;
+function toggleMenu(){
+  mOpen=!mOpen;
+  document.getElementById('mmenu').classList.toggle('open',mOpen);
+  var ov=document.getElementById('movl'); ov.style.display=mOpen?'block':'none';
+  var b1=document.getElementById('b1'),b2=document.getElementById('b2'),b3=document.getElementById('b3');
+  if(mOpen){b1.style.transform='translateY(7px) rotate(45deg)';b2.style.opacity='0';b3.style.transform='translateY(-7px) rotate(-45deg)';}
+  else{b1.style.transform='';b2.style.opacity='1';b3.style.transform='';}
+}
+function closeMob(){
+  mOpen=false;
+  document.getElementById('mmenu').classList.remove('open');
+  document.getElementById('movl').style.display='none';
+  document.getElementById('b1').style.transform='';
+  document.getElementById('b2').style.opacity='1';
+  document.getElementById('b3').style.transform='';
+}
+
+// ── Scroll Reveal ──
+var ro=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);} });
+},{threshold:0.07,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
+
+// ── Counters ──
+var co=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting&&!e.target._done){
+      e.target._done=true;
+      var tgt=parseInt(e.target.dataset.target),val=0,step=tgt/75;
+      var t=setInterval(function(){val+=step;if(val>=tgt){val=tgt;clearInterval(t);}e.target.textContent=Math.floor(val);},18);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.counter').forEach(function(c){co.observe(c);});
+
+// ── SOC clock ──
+function tick(){var e=document.getElementById('soc-clock');if(e)e.textContent=new Date().toTimeString().slice(0,8);}
+setInterval(tick,1000);tick();
+
+// ── Attack log ──
+var evts=[
+  {t:'BLOCK',m:'Port scan → 196.23.1.4',c:'#fb923c'},
+  {t:'INFO', m:'Login: admin@lambotec.co.tz',c:'#6b7280'},
+  {t:'BLOCK',m:'Brute force SSH → 10.0.1.12',c:'#f87171'},
+  {t:'OK',   m:'Firewall rules updated',c:'#4ade80'},
+  {t:'WARN', m:'Unusual traffic on eth0',c:'#facc15'},
+  {t:'BLOCK',m:'SQL inject blocked',c:'#f87171'},
+  {t:'OK',   m:'Backup completed: 2.4GB',c:'#4ade80'},
+  {t:'INFO', m:'VPN: client-07 connected',c:'#6b7280'},
+  {t:'BLOCK',m:'XSS attempt → /api/login',c:'#fb923c'},
+  {t:'OK',   m:'Cert renewed: *.lambotec.co.tz',c:'#4ade80'},
+  {t:'WARN', m:'CPU spike SRV-02 (87%)',c:'#facc15'},
+  {t:'BLOCK',m:'DDoS mitigated: 12k req/s',c:'#f87171'}
+];
+var lg=document.getElementById('alog');
+if(lg){
+  lg.innerHTML=evts.concat(evts).map(function(e){
+    return '<div style="display:flex;align-items:center;gap:6px"><span style="font-family:monospace;font-size:.58rem;color:'+e.c+';flex-shrink:0;width:36px">['+e.t+']</span><span style="font-size:.58rem;color:#4b5563;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e.m+'</span></div>';
+  }).join('');
+  lg.style.animation='logUp 20s linear infinite';
+}
+
+// ── Mobile testimonial carousel ──
+var slides=document.querySelectorAll('.mslide'), cur=0;
+function buildDots(){
+  var d=document.getElementById('sdots'); if(!d)return; d.innerHTML='';
+  slides.forEach(function(_,i){
+    var s=document.createElement('span');
+    s.style.cssText='display:inline-block;height:7px;border-radius:4px;transition:all .3s;cursor:pointer;background:'+(i===cur?'var(--green)':'rgba(22,163,74,0.3)')+';width:'+(i===cur?'20':'7')+'px';
+    s.onclick=function(){gotoSlide(i);};
+    d.appendChild(s);
+  });
+}
+function gotoSlide(n){
+  slides[cur].style.display='none';slides[cur].classList.remove('active');
+  cur=(n+slides.length)%slides.length;
+  slides[cur].style.display='block';slides[cur].classList.add('active');
+  buildDots();
+}
+function nextSlide(){gotoSlide(cur+1);}
+function prevSlide(){gotoSlide(cur-1);}
+buildDots();
+setInterval(nextSlide,5200);
+
+// ── Form ──
+function submitForm(e){
+  e.preventDefault();
+  document.getElementById('cform').style.display='none';
+  document.getElementById('form-ok').style.display='block';
+}
+</script>
+</body>
+</html>
